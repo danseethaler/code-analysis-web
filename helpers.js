@@ -73,15 +73,35 @@ function shuffleList(list) {
   return result
 }
 
+const getCompareStrings = baseString => {
+  const baseStringLower = baseString.trim().toLowerCase()
+
+  return (...comparisons) => {
+    for (let i = 0; i < comparisons.length; i++) {
+      const compareString = comparisons[i].trim().toLowerCase()
+      if (compareString.includes(baseStringLower)) {
+        return true
+      }
+    }
+
+    return false
+  }
+}
+
 /**
  * Remove any people that do not have the name we are
  * searching for.
  */
-const filterByName = (searchForName, personList) =>
-  personList.filter(
-    ({firstName, lastName}) =>
-      firstName === searchForName || lastName === searchForName
+const filterByName = (searchForName, personList) => {
+  const searchName = searchForName.trim()
+  if (!searchName) return personList
+
+  const compareStrings = getCompareStrings(searchForName)
+
+  return personList.filter(({firstName, lastName}) =>
+    compareStrings(firstName, lastName)
   )
+}
 
 /**
  * Takes in a property of an object list, e.g. "name" below

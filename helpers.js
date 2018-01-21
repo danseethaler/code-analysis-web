@@ -41,7 +41,7 @@ const getFirstName = ({firstName}) => firstName
 
 // headshot URLs are scheme relative //
 // prepend http: to prevent invalid schemes like file:// or uri://
-const getImageUrl = ({headshot}) => `http:${headshot.url}`
+const getImageUrl = ({headshot}) => `http:${headshot.url}?h=250`
 
 /**
  * Fisher-Yates shuffle

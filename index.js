@@ -20,14 +20,34 @@ const ListRow = ({person}) =>
     React.DOM.td({key: 'last'}, null, getLastName(person)),
   ])
 
-const ListContainer = ({personList}) =>
+const getArrow = (sortCategory, name) => {
+  if (sortCategory === `${name}Name`) {
+    return '↓'
+  }
+
+  if (sortCategory === `${name}NameReverse`) {
+    return '↑'
+  }
+
+  return ''
+}
+
+const ListContainer = ({personList, sortCategory}) =>
   React.DOM.table({className: 'list-container'}, [
     React.DOM.thead(
       {key: 'thead'},
       React.DOM.tr({}, [
         React.DOM.th({key: 'thumb-h'}, null, 'Thumbnail'),
-        React.DOM.th({key: 'first-h'}, null, 'First Name'),
-        React.DOM.th({key: 'last-h'}, null, 'Last Name'),
+        React.DOM.th(
+          {key: 'first-h'},
+          null,
+          `First Name ${getArrow(sortCategory, 'first')}`
+        ),
+        React.DOM.th(
+          {key: 'last-h'},
+          null,
+          `Last Name ${getArrow(sortCategory, 'last')}`
+        ),
       ])
     ),
     React.DOM.tbody(
@@ -43,6 +63,7 @@ const App = React.createClass({
     return {
       personList: [],
       visiblePersonList: [],
+      sortCategory: '',
     }
   },
 
@@ -62,14 +83,28 @@ const App = React.createClass({
   },
 
   _sortByFirst() {
+    if (this.state.sortCategory === 'firstName') {
+      return this.setState({
+        visiblePersonList: sortByFirstNameReverse(this.state.personList),
+        sortCategory: 'firstNameReverse',
+      })
+    }
     this.setState({
       visiblePersonList: sortByFirstName(this.state.personList),
+      sortCategory: 'firstName',
     })
   },
 
   _sortByLast() {
+    if (this.state.sortCategory === 'lastName') {
+      return this.setState({
+        visiblePersonList: sortByLastNameReverse(this.state.personList),
+        sortCategory: 'lastNameReverse',
+      })
+    }
     this.setState({
       visiblePersonList: sortByLastName(this.state.personList),
+      sortCategory: 'lastName',
     })
   },
 
@@ -101,6 +136,7 @@ const App = React.createClass({
       ),
       React.createElement(ListContainer, {
         key: 'list',
+        sortCategory: this.state.sortCategory,
         personList: visiblePersonList,
       }),
     ])

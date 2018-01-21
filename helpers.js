@@ -41,7 +41,16 @@ const getFirstName = ({firstName}) => firstName
 
 // headshot URLs are scheme relative //
 // prepend http: to prevent invalid schemes like file:// or uri://
-const getImageUrl = ({headshot}) => `http:${headshot.url}?h=250`
+const placeHolderUrl =
+  '//images.contentful.com/3cttzl4i3k1h/5ZUiD3uOByWWuaSQsayAQ6/c630e7f851d5adb1876c118dc4811aed/featured-image-TEST1.png'
+
+const getImageUrl = ({lastName, headshot}) => {
+  const url = headshot.url || placeHolderUrl
+
+  // The h query string sets a maximum height of the image
+  // this standardizes image sizes and reduces file size
+  return `http:${url}?h=250`
+}
 
 /**
  * Fisher-Yates shuffle

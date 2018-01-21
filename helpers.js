@@ -35,30 +35,24 @@ function getPersonList() {
 
 ***************************************************/
 
-function getLastName(person) {
-  return person.lastName
-}
+const getLastName = ({lastName}) => lastName
 
-const getFirstName = person => {
-  return person.firstName
-}
+const getFirstName = ({firstName}) => firstName
 
 // headshot URLs are scheme relative //
 // prepend http: to prevent invalid schemes like file:// or uri://
-const getImageUrl = person => {
-  return `http:${person.headshot.url}`
-}
+const getImageUrl = ({headshot}) => `http:${headshot.url}`
 
 /**
  * Fisher-Yates shuffle
  */
 function shuffleList(list) {
   // Make a copy & don't mutate the passed in list
-  let result = list.slice(1)
+  const result = list.slice(1)
 
-  let tmp,
-    j,
-    i = list.length - 1
+  let tmp
+  let j
+  let i = list.length - 1
 
   for (; i > 0; i -= 1) {
     j = Math.floor(Math.random() * (i + 1))
@@ -74,13 +68,11 @@ function shuffleList(list) {
  * Remove any people that do not have the name we are
  * searching for.
  */
-function filterByName(searchForName, personList) {
-  return personList.filter(person => {
-    return (
-      person.firstName === searchForName || person.lastName === searchForName
-    )
-  })
-}
+const filterByName = (searchForName, personList) =>
+  personList.filter(
+    ({firstName, lastName}) =>
+      firstName === searchForName || lastName === searchForName
+  )
 
 /**
  * Takes in a property of an object list, e.g. "name" below
@@ -98,10 +90,10 @@ function filterByName(searchForName, personList) {
  *    > [{ name: 'Jon' }, { name: 'Kevin' }, { name: 'Sam' }]
  *
  */
-function sortObjListByProp(prop) {
+const sortObjListByProp = prop => {
   return function(objList) {
     // Make a copy & don't mutate the passed in list
-    let result = objList.slice(1)
+    const result = objList.slice(1)
 
     result.sort((a, b) => {
       if (a[prop] < b[prop]) {

@@ -48,7 +48,7 @@ const getImageUrl = ({headshot}) => `http:${headshot.url}`
  */
 function shuffleList(list) {
   // Make a copy & don't mutate the passed in list
-  const result = list.slice(1)
+  const result = list.slice(0)
 
   let tmp
   let j
@@ -93,7 +93,7 @@ const filterByName = (searchForName, personList) =>
 const sortObjListByProp = prop => {
   return function(objList) {
     // Make a copy & don't mutate the passed in list
-    const result = objList.slice(1)
+    const result = objList.slice(0)
 
     result.sort((a, b) => {
       if (a[prop] < b[prop]) {

@@ -1,26 +1,26 @@
-const Search = props =>
+const Search = ({onChange}) =>
   React.DOM.input({
     type: 'input',
-    onChange: props.onChange,
+    onChange,
   })
 
-const Thumbnail = props =>
+const Thumbnail = ({src}) =>
   React.DOM.img({
     className: 'image',
-    src: props.src,
+    src,
   })
 
-const ListRow = props =>
-  React.DOM.tr({key: `${props.person.firstName} ${props.person.lastName}`}, [
+const ListRow = ({person}) =>
+  React.DOM.tr({key: `${person.firstName} ${person.lastName}`}, [
     React.DOM.td(
       {key: 'thumb'},
-      React.createElement(Thumbnail, {src: getImageUrl(props.person)})
+      React.createElement(Thumbnail, {src: getImageUrl(person)})
     ),
-    React.DOM.td({key: 'first'}, null, getFirstName(props.person)),
-    React.DOM.td({key: 'last'}, null, getLastName(props.person)),
+    React.DOM.td({key: 'first'}, null, getFirstName(person)),
+    React.DOM.td({key: 'last'}, null, getLastName(person)),
   ])
 
-const ListContainer = props =>
+const ListContainer = ({personList}) =>
   React.DOM.table({className: 'list-container'}, [
     React.DOM.thead(
       {key: 'thead'},
@@ -32,7 +32,7 @@ const ListContainer = props =>
     ),
     React.DOM.tbody(
       {key: 'tbody'},
-      props.personList.map((person, i) =>
+      personList.map((person, i) =>
         React.createElement(ListRow, {key: `person-${i}`, person})
       )
     ),
